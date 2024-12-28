@@ -6,12 +6,13 @@ export class FilmsController {
   constructor(private readonly filmsService: FilmsService) {}
 
   @Get()
-  findAll(): string {
-    return 'Этот метод возвращает список фильмов';
+  findAll() {
+    return this.filmsService.allFilms();
   }
 
   @Get(':id/schedule')
-  find(@Param('id') id: string): string {
-    return `Этот метод вернёт данные фильма с id ${id}`;
+  find(@Param('id') id: string) {
+    return this.filmsService.filmSchedule(id);
+    // return `Этот метод вернёт данные фильма с id ${id}`;
   }
 }

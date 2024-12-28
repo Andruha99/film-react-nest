@@ -8,6 +8,8 @@ import { FilmsController } from './films/films.controller';
 import { FilmsService } from './films/films.service';
 import { OrderController } from './order/order.controller';
 import { OrderService } from './order/order.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { FilmsModule } from './films/films.module';
 
 @Module({
   imports: [
@@ -20,8 +22,10 @@ import { OrderService } from './order/order.service';
       rootPath: path.join(__dirname, '..', 'public'),
       renderPath: 'content/afisha/',
     }),
+    MongooseModule.forRoot(process.env.DATABASE_URL),
+    FilmsModule,
   ],
-  controllers: [FilmsController, OrderController],
-  providers: [configProvider, FilmsService, OrderService],
+  controllers: [OrderController],
+  providers: [configProvider, OrderService],
 })
 export class AppModule {}

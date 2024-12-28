@@ -5,7 +5,7 @@ export class ScheduleDto {
   @IsString()
   id: string;
   @IsString()
-  daytime: string;
+  daytime: Date;
   @IsNumber()
   hall: number;
   @IsNumber()
@@ -35,6 +35,8 @@ export class FilmDto {
   title: string;
   @IsString()
   about: string;
+  @IsString()
+  description: string;
   @IsArray()
   schedule: ScheduleDto[];
 }
