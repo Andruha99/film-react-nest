@@ -13,6 +13,5 @@ export class FilmsController {
   @Get(':id/schedule')
   find(@Param('id') id: string) {
     return this.filmsService.filmSchedule(id);
-    // return `Этот метод вернёт данные фильма с id ${id}`;
   }
 }
