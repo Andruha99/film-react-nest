@@ -22,7 +22,7 @@ export class Schedule {
   taken: string[];
 }
 
-const ScheduleSchema = SchemaFactory.createForClass(Schedule);
+export const ScheduleSchema = SchemaFactory.createForClass(Schedule);
 
 @Schema()
 export class Film {

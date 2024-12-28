@@ -5,8 +5,6 @@ import * as path from 'node:path';
 
 import { configProvider } from './app.config.provider';
 
-import { OrderController } from './order/order.controller';
-import { OrderService } from './order/order.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { FilmsModule } from './films/films.module';
 import { OrderModule } from './order/order.module';
@@ -22,7 +20,7 @@ import { OrderModule } from './order/order.module';
       rootPath: path.join(__dirname, '..', 'public'),
       renderPath: 'content/afisha/',
     }),
-    MongooseModule.forRoot(process.env.DATABASE_URL),
+    MongooseModule.forRoot(configProvider.useValue.database.url, {}),
     FilmsModule,
     OrderModule,
   ],

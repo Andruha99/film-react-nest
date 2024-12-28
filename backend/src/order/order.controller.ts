@@ -9,6 +9,5 @@ export class OrderController {
   @Post()
   create(@Body() orderDto: OrderDto) {
     return this.orderService.createOrder(orderDto);
-    //return 'Это метод создания нового заказа';
   }
 }
