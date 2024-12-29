@@ -44,7 +44,7 @@ export class Film {
   about: string;
   @Prop({ required: true, type: String })
   description: string;
-  @Prop({ required: true })
+  @Prop({ required: true, type: [ScheduleSchema] })
   schedule: Schedule[];
 }
 

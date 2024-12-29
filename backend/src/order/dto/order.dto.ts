@@ -15,6 +15,10 @@ export class TicketDto {
   session: string;
   @IsString()
   daytime: Date;
+  @IsString()
+  day: string;
+  @IsString()
+  time: string;
   @IsNumber()
   row: number;
   @IsNumber()
