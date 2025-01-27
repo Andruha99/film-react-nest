@@ -1,22 +1,36 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { IsDate, IsNumber, IsString } from 'class-validator';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Film } from './film.entity';
 
-@Schema()
+@Entity('schedules')
 export class Schedule {
-  @Prop({ required: true, type: String })
+  @PrimaryGeneratedColumn()
   id: string;
-  @Prop({ required: true })
-  daytime: Date;
-  @Prop({ required: true, type: Number })
-  hall: number;
-  @Prop({ required: true, type: Number })
-  rows: number;
-  @Prop({ required: true, type: Number })
-  seats: number;
-  @Prop({ required: true, type: Number })
-  price: number;
-  @Prop({ required: true, type: [String] })
-  taken: string[];
-}
 
-export const ScheduleSchema = SchemaFactory.createForClass(Schedule);
+  @Column()
+  @IsDate()
+  daytime: Date;
+
+  @Column()
+  @IsNumber()
+  hall: number;
+
+  @Column()
+  @IsNumber()
+  rows: number;
+
+  @Column()
+  @IsNumber()
+  seats: number;
+
+  @Column()
+  @IsNumber()
+  price: number;
+
+  @Column()
+  @IsString()
+  taken: string;
+
+  @ManyToOne(() => Film, (film) => film.schedule)
+  film: Film;
+}

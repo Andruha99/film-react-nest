@@ -1,31 +1,48 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Schedule, ScheduleSchema } from './schedule.entity';
+import { IsNumber, IsString } from 'class-validator';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Schedule } from './schedule.entity';
 import { HydratedDocument } from 'mongoose';
 
 export type FilmDocument = HydratedDocument<Film>;
+// export type FilmDocument = Film & Document<Types.ObjectId>;
 
-@Schema()
+@Entity('films')
 export class Film {
-  @Prop({ required: true, unique: true, type: String })
+  @PrimaryGeneratedColumn('uuid')
   id: string;
-  @Prop({ required: true, type: Number })
+
+  @Column()
+  @IsNumber()
   rating: number;
-  @Prop({ required: true, type: String })
+
+  @Column()
+  @IsString()
   director: string;
-  @Prop({ required: true, type: [String] })
-  tags: string[];
-  @Prop({ required: true, type: String })
+
+  @Column()
+  @IsString()
+  tags: string;
+
+  @Column()
+  @IsString()
   image: string;
-  @Prop({ required: true, type: String })
+
+  @Column()
+  @IsString()
   cover: string;
-  @Prop({ required: true, type: String })
+
+  @Column()
+  @IsString()
   title: string;
-  @Prop({ required: true, type: String })
+
+  @Column()
+  @IsString()
   about: string;
-  @Prop({ required: true, type: String })
+
+  @Column()
+  @IsString()
   description: string;
-  @Prop({ required: true, type: [ScheduleSchema] })
+
+  @OneToMany(() => Schedule, (schedule) => schedule.film, { cascade: true })
   schedule: Schedule[];
 }
-
-export const FilmSchema = SchemaFactory.createForClass(Film);
