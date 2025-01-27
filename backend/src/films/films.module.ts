@@ -1,12 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import {
-  Film,
-  FilmSchema,
-  FilmsRepository,
-} from '../repository/films.repository';
+import { FilmsRepository } from '../repository/films.repository';
 import { FilmsController } from './films.controller';
 import { FilmsService } from './films.service';
+import { Film, FilmSchema } from './entities/film.entity';
 
 @Module({
   imports: [
