@@ -8,10 +8,7 @@ import { configProvider } from '../app.config.provider';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        // type: 'postgres',
-        type: configService.get(
-          'DATABASE_DRIVER',
-        ) as TypeOrmModuleOptions['type'],
+        type: configService.get('DATABASE_DRIVER'),
         host: configService.get('DATABASE_URL'),
         port: configService.get('DATABASE_PORT'),
         username: configService.get('DATABASE_USERNAME'),
@@ -21,7 +18,7 @@ import { configProvider } from '../app.config.provider';
         synchronize: false,
       }),
       inject: [ConfigService],
-    }),
+    } as TypeOrmModuleOptions),
   ],
   providers: [configProvider],
 })
