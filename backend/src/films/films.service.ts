@@ -1,16 +1,37 @@
 import { Injectable } from '@nestjs/common';
-import { FilmsRepository } from '../repository/films.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Film } from './entities/film.entity';
+import { Repository } from 'typeorm';
+import { Schedule } from './entities/schedule.entity';
 
 @Injectable()
 export class FilmsService {
-  constructor(private filmsRepository: FilmsRepository) {}
+  constructor(
+    @InjectRepository(Film) private filmRepository: Repository<Film>,
+  ) {}
 
-  async allFilms() {
-    return this.filmsRepository.getAllFilms();
+  async allFilms(): Promise<{ total: number; items: Film[] }> {
+    const [total, items] = await Promise.all([
+      this.filmRepository.count(),
+      this.filmRepository.find({
+        relations: {
+          schedule: true,
+        },
+      }),
+    ]);
+
+    return { total, items };
   }
 
-  async filmSchedule(id: string) {
-    const film = await this.filmsRepository.getFilmSchedule(id);
+  async filmSchedule(
+    id: string,
+  ): Promise<{ total: number; items: Schedule[] }> {
+    const film = await this.filmRepository.findOne({
+      where: { id },
+      relations: {
+        schedule: true,
+      },
+    });
 
     return { total: film.schedule.length, items: film.schedule };
   }
