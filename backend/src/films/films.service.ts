@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Film } from './entities/film.entity';
 import { Repository } from 'typeorm';
+import { Schedule } from './entities/schedule.entity';
 
 @Injectable()
 export class FilmsService {
@@ -22,7 +23,9 @@ export class FilmsService {
     return { total, items };
   }
 
-  async filmSchedule(id: string) {
+  async filmSchedule(
+    id: string,
+  ): Promise<{ total: number; items: Schedule[] }> {
     const film = await this.filmRepository.findOne({
       where: { id },
       relations: {

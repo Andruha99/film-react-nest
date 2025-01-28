@@ -4,7 +4,6 @@ import { Schedule } from './schedule.entity';
 import { HydratedDocument } from 'mongoose';
 
 export type FilmDocument = HydratedDocument<Film>;
-// export type FilmDocument = Film & Document<Types.ObjectId>;
 
 @Entity('films')
 export class Film {

@@ -36,15 +36,16 @@ export class OrderService {
 
       const takenPlace = `${row}:${seat}`;
 
-      const isTaken = filmSchedule.taken?.split(',');
+      const bookedPlace = filmSchedule.taken?.split(',');
 
-      if (isTaken.includes(takenPlace)) {
+      if (bookedPlace.find((place) => place === takenPlace)) {
         throw new BadRequestException('Place has been booked');
       }
 
       filmSchedule.taken = filmSchedule.taken
         ? `${filmSchedule.taken},${takenPlace}`
         : takenPlace;
+
       await this.filmsRepository.save(currentFilm);
     });
     return {
