@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { configProvider } from '../app.config.provider';
 
 @Module({
@@ -8,7 +8,10 @@ import { configProvider } from '../app.config.provider';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
+        // type: 'postgres',
+        type: configService.get(
+          'DATABASE_DRIVER',
+        ) as TypeOrmModuleOptions['type'],
         host: configService.get('DATABASE_URL'),
         port: configService.get('DATABASE_PORT'),
         username: configService.get('DATABASE_USERNAME'),
