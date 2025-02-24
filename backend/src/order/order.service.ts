@@ -3,18 +3,24 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { FilmsRepository } from '../repository/films.repository';
 import { OrderDto } from './dto/order.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Film } from '../films/entities/film.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class OrderService {
-  constructor(private readonly filmsRepository: FilmsRepository) {}
+  constructor(
+    @InjectRepository(Film) private readonly filmsRepository: Repository<Film>,
+  ) {}
 
   async createOrder(orderDto: OrderDto) {
     orderDto.tickets.forEach(async (ticket) => {
       const { film, session, seat, row } = ticket;
-
-      const currentFilm = await this.filmsRepository.getFilmSchedule(film);
+      const currentFilm = await this.filmsRepository.findOne({
+        where: { id: film },
+        relations: { schedule: true },
+      });
 
       if (!currentFilm) {
         throw new NotFoundException('This film not found');
@@ -29,13 +35,18 @@ export class OrderService {
       }
 
       const takenPlace = `${row}:${seat}`;
-      if (filmSchedule.taken.find((place) => place === takenPlace)) {
+
+      const bookedPlace = filmSchedule.taken?.split(',');
+
+      if (bookedPlace.find((place) => place === takenPlace)) {
         throw new BadRequestException('Place has been booked');
       }
 
-      filmSchedule.taken.push(takenPlace);
+      filmSchedule.taken = filmSchedule.taken
+        ? `${filmSchedule.taken},${takenPlace}`
+        : takenPlace;
 
-      await currentFilm.save();
+      await this.filmsRepository.save(currentFilm);
     });
     return {
       total: orderDto.tickets.length,
