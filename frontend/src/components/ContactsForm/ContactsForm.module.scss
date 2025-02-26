@@ -1,5 +1,5 @@
-@use 'variables' as *;
-@use 'mixins';
+@use "variables" as *;
+@use "mixins";
 
 .form {
   @include mixins.flex(column);
@@ -33,7 +33,7 @@
     }
 
     &::placeholder {
-      color: lighten($primaryLight, 23%);
+      color: adjust($primaryLight, 23%);
     }
   }
 }
