@@ -1,5 +1,6 @@
 services:
   backend:
+    image: ghcr.io/andruha99/film-react-nest_backend:latest
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -15,6 +16,7 @@ services:
     restart: unless-stopped
 
   frontend:
+    image: ghcr.io/andruha99/film-react-nest_frontend:latest
     build:
       context: ./frontend
       dockerfile: Dockerfile
