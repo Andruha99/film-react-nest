@@ -38,7 +38,7 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}/backend:latest
+          tags: ghcr.io/andruha99/film-react-nest/backend:latest
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build and push Frontend Docker image
@@ -47,5 +47,5 @@ jobs:
           context: ./frontend
           file: ./frontend/Dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}/frontend:latest
+          tags: ghcr.io/andruha99/film-react-nest/frontend:latest
           labels: ${{ steps.meta.outputs.labels }}
