@@ -18,6 +18,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set Lower Case for Owner
+        run: |
+          echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+        env:
+          OWNER: "${{ github.repository_owner }}"
+      - run: |
+          echo "repo ${OWNER_LC}"
+
       - uses: actions/checkout@v4 # Checking out the repo
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -41,7 +49,7 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile
           push: true
-          tags: ghcr.io/andruha99/film-react-nest/backend:latest
+          tags: ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/film-react-nest_backend:latest
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Build and push Frontend Docker image
@@ -50,5 +58,5 @@ jobs:
           context: ./frontend
           file: ./frontend/Dockerfile
           push: true
-          tags: ghcr.io/andruha99/film-react-nest/frontend:latest
+          tags: ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/film-react-nest_frontend:latest
           labels: ${{ steps.meta.outputs.labels }}
