@@ -23,8 +23,6 @@ jobs:
           echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
         env:
           OWNER: "${{ github.repository_owner }}"
-      - run: |
-          echo "repo ${OWNER_LC}"
 
       - uses: actions/checkout@v4 # Checking out the repo
       - name: Log in to the Container registry
